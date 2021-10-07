@@ -105,7 +105,7 @@ export default function App() {
     if (initial > current) {
       var loss = (initial - current) * quantity;
       var lossPercentage = (loss / initial).toFixed(2);
-      // changeBackground("loss")
+      changeBackground("loss");
 
       setStatement(
         "The loss is  ₹ " + loss.toFixed(2) + " and " + lossPercentage + "% 😥"
@@ -113,7 +113,7 @@ export default function App() {
     } else if (current > initial) {
       var profit = (current - initial) * quantity;
       var profitPercentage = ((profit / (initial * quantity)) * 100).toFixed(2);
-      // changeBackground("profit")
+      changeBackground("profit");
 
       setStatement(
         "The profit is  ₹ " +
@@ -123,32 +123,46 @@ export default function App() {
           "% 😃"
       );
     } else {
-      // changeBackground("")
+      changeBackground("");
       setStatement("No gain No pain 🙂");
     }
   }
-  // function changeBackground(status) {
-  //   if (status === "loss") {
-  //       body.style.backgroundColor = "#990000";
-  //       paintItWhite();
+  function changeBackground(status) {
+    if (status === "loss") {
+      document.getElementById("App").style.backgroundColor = "#990000";
+      paintIt("white");
+    } else if (status === "profit") {
+      document.getElementById("App").style.backgroundColor = "#134d00";
+      paintIt("white");
+    } else {
+      document.getElementById("App").style.backgroundColor = "cornsilk";
+      paintIt("black");
+    }
+    document.getElementById("App").style.borderColor = "white";
+  }
 
-  //   } else if (status === "profit") {
-  //       body.style.backgroundColor = "#134d00";
-  //       paintItWhite();
+  function paintIt(colorName) {
+    document.getElementById("App").style.borderColor = colorName;
 
-  //   } else {
-  //       body.style.backgroundColor = "cornsilk";
-  //       paintItBlack();
-  //   }
-  //   container.style.borderColor = "white";
-  // }
+    document.getElementById("heading").style.color = colorName;
+    document.getElementById("subtitle").style.color = colorName;
+    document.getElementById("output").style.color = colorName;
+
+    document.getElementById("initial-currency").style.color = colorName;
+    document.getElementById("current-currency").style.color = colorName;
+
+    document.getElementById("labelStockName").style.color = colorName;
+    document.getElementById("labelInitialPrice").style.color = colorName;
+    document.getElementById("labelQuantity").style.color = colorName;
+    document.getElementById("labelCurrentPrice").style.color = colorName;
+  }
 
   return (
-    <div className="App">
-      <h1 className="heading">Stocks Prediction</h1>
-      <p>Using API</p>
+    <div id="App">
+      <h1 id="heading">Stocks Prediction</h1>
+      <p id="subtitle">Using API</p>
 
-      <label>Stock Name:</label>
+      <label id="labelStockName">Stock Name:</label>
       <input
         list="stockName"
         type="text"
@@ -157,23 +171,23 @@ export default function App() {
         onChange={(e) => getOptionList(e.target.value)}
       />
       <datalist id="stockName"></datalist>
-      <label>Initial Price</label>
-      <span className="currency"> {currency}</span>
+      <label id="labelInitialPrice">Initial Price</label>
+      <span id="initial-currency"> in {currency}</span>
       <input
         type="number"
         name="initial-price"
         className="initial-price"
         ref={initialPrice}
       />
-      <label>Quantity</label>
+      <label id="labelQuantity">Quantity</label>
       <input
         type="number"
         name="quantity"
         className="quantity"
         ref={quantity}
       />
-      <label>Current Price</label>
-      <span className="currency"> {currency}</span>
+      <label id="labelCurrentPrice">Current Price</label>
+      <span id="current-currency"> in {currency}</span>
       {/* <textarea
         type="number"
         name="current-price"
@@ -183,7 +197,7 @@ export default function App() {
       <button className="btn-check" onClick={() => clickHandler()}>
         Check
       </button>
-      <h3 className="output">{statement}</h3>
+      <h3 id="output">{statement}</h3>
     </div>
   );
 }
